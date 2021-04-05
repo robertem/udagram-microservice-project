@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: udagram-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-frontend
+  template:
+    metadata:
+      labels:
+        app: udagram-frontend
+    spec:
+      containers:
+      - name: udagram-frontend
+        image: robertem/udagram-frontend
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy-deployment
+  labels:
+    app: udagram-reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: udagram-reverse-proxy
+    spec:
+      containers:
+      - name: udagram-reverse-proxy
+        image: robertem/udagram-reverse-proxy
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api-deployment
+  labels:
+    app: udagram-user-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-user-api
+  template:
+    metadata:
+      labels:
+        app: udagram-user-api
+    spec:
+      containers:
+      - name: udagram-user-api
+        image: robertem/udagram-user-api
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-feed-deployment
+  labels:
+    app: udagram-feed-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-feed-api
+  template:
+    metadata:
+      labels:
+        app: udagram-feed-api
+    spec:
+      containers:
+      - name: udagram-feed-api
+        image: robertem/udagram-feed-api
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
