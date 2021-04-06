@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api-deployment
+  labels:
+    app: udagram-user-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-user-api
+  template:
+    metadata:
+      labels:
+        app: udagram-user-api
+    spec:
+      containers:
+      - name: udagram-user-api
+        image: robertem/udagram-user-api
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-svc
+  labels:
+    run: udagram-user-api
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: udagram-user-api

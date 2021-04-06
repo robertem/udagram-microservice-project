@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: udagram-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-frontend
+  template:
+    metadata:
+      labels:
+        app: udagram-frontend
+    spec:
+      containers:
+      - name: udagram-frontend
+        image: robertem/udagram-frontend
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-web
+  labels:
+    run: udagram-frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: udagram-frontend

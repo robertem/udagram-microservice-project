@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy-deployment
+  labels:
+    app: udagram-reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: udagram-reverse-proxy
+    spec:
+      containers:
+      - name: udagram-reverse-proxy
+        image: robertem/udagram-reverse-proxy
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-svc
+  labels:
+    run: udagram-reverse-proxy
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: udagram-reverse-proxy

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-api-deployment
+  labels:
+    app: udagram-feed-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-feed-api
+  template:
+    metadata:
+      labels:
+        app: udagram-feed-api
+    spec:
+      containers:
+      - name: udagram-feed-api
+        image: robertem/udagram-feed-api
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: udagram-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feed-svc
+  labels:
+    run: udagram-feed-api
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: udagram-feed-api
