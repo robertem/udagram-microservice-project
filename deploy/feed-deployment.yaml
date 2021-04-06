@@ -21,6 +21,9 @@ spec:
           requests:
             memory: "64Mi"
             cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         ports:
         - containerPort: 8080
         envFrom:
@@ -32,11 +35,11 @@ kind: Service
 metadata:
   name: feed-svc
   labels:
-    run: udagram-feed-api
+    app: udagram-feed-api
 spec:
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
-    run: udagram-feed-api
+    app: udagram-feed-api
