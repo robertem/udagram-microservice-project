@@ -21,7 +21,7 @@ COPY . .
 RUN npm run build
 
 # Use NodeJS base image
-FROM node:15-alpine
+FROM node:15
 
 # Create app directory
 WORKDIR /app
