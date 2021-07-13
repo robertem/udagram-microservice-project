@@ -45,7 +45,7 @@ import * as jwt from 'jsonwebtoken';
     }
 
     logger.info({
-      Title: `User ${user} requested for resource`,
+      Message: `User ${user} requested for resource`,
       URL: req.url,
       Method: req.method,
       Body: req.body
@@ -53,7 +53,7 @@ import * as jwt from 'jsonwebtoken';
 
     res.on("finish", () => {
       logger.info({
-        Title: 'Resource response',
+        Message: 'Resource response',
         StatusCode: res.statusCode,
         StatusMessage: res.statusMessage
       })
