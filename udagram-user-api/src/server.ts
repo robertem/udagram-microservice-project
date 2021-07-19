@@ -34,7 +34,7 @@ import * as jwt from 'jsonwebtoken';
 
     let user;
 
-    if (!req.headers || !req.headers.authorization) {
+    if (req.headers && req.headers.authorization) {
       const tokenBearer = req.headers.authorization.split(' ');
         if (tokenBearer.length == 2) {
           const token = tokenBearer[1];
