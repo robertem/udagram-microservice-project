@@ -10,5 +10,5 @@ export const sequelize = new Sequelize({
 
   'dialect': config.dialect,
   'storage': ':memory:',
-  'logging': config.aws_profile !== 'DEPLOYED'?true:false
+  'logging': config.aws_profile !== 'DEPLOYED'?console.log:false
 });
