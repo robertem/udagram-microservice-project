@@ -1,10 +1,11 @@
 import logger from './logger';
 import { config } from './config/config';
 
+import {Request, Response, NextFunction} from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
 
-var requestLoggingMiddleware = function(req, res, next) {
+export function requestLoggingMiddleware(req: Request, res: Response, next: NextFunction) {
     let user = getUserFromRequest(req);
     let correlationId = getCorrelationId();
 
@@ -30,7 +31,7 @@ var requestLoggingMiddleware = function(req, res, next) {
     next();
 }
 
-function getUserFromRequest(req) {
+function getUserFromRequest(req: Request): string {
     if (req.headers && req.headers.authorization) {
         const tokenBearer = req.headers.authorization.split(' ');
         if (tokenBearer.length == 2) {
@@ -48,5 +49,3 @@ function getUserFromRequest(req) {
 function getCorrelationId() {
     return uuidv4();
 }
-
-module.exports = { requestLoggingMiddleware };
