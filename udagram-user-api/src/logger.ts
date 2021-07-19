@@ -1,20 +1,18 @@
-import winston from 'winston'
+import { createLogger, format, transports } from 'winston'
 
-const format = winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-    winston.format.printf(
-        (info) => `${info.timestamp} ${info.level}: ${info.message}`,
-    )
+const { combine, timestamp, printf } = format
+
+const customFormat = combine(
+    timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
+    printf(({ level, message, label, timestamp, correlationId }) => {
+        return `${timestamp} ${level} - ${correlationId}: ${label} \n ${message}`;
+    })
 );
 
-const transports = [
-    new winston.transports.Console()
-];
-
-const logger = winston.createLogger({
+const logger = createLogger({
     level: 'info',
-    transports: transports,
-    format: format
+    transports: [new transports.Console()],
+    format: customFormat
 });
 
 export default logger;
