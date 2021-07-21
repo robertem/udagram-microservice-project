@@ -31,17 +31,3 @@ spec:
             name: udagram-config
         - secretRef:
             name: udagram-secret
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-svc
-  labels:
-    app: udagram-user-api
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: udagram-user-api
