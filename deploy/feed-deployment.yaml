@@ -29,6 +29,8 @@ spec:
         envFrom:
         - configMapRef:
             name: udagram-config
+        - secretRef:
+            name: udagram-secret
         volumeMounts:
           - name: aws-secret
             mountPath: "/root/.aws/"
