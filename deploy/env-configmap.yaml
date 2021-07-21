@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: udagram-config
 data:
-  POSTGRES_USERNAME: 
-  POSTGRES_PASSWORD: 
   POSTGRES_HOST: 
   POSTGRES_DB: 
   AWS_BUCKET: 

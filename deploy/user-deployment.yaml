@@ -29,17 +29,5 @@ spec:
         envFrom:
         - configMapRef:
             name: udagram-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-svc
-  labels:
-    app: udagram-user-api
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: udagram-user-api
+        - secretRef:
+            name: udagram-secret

@@ -29,16 +29,3 @@ spec:
         envFrom:
         - configMapRef:
             name: udagram-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: udagram-web
-  labels:
-    app: udagram-frontend
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-  selector:
-    app: udagram-frontend

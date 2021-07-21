@@ -5,7 +5,7 @@ metadata:
   labels:
     app: udagram-feed-api
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: udagram-feed-api
@@ -29,17 +29,13 @@ spec:
         envFrom:
         - configMapRef:
             name: udagram-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: feed-svc
-  labels:
-    app: udagram-feed-api
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: udagram-feed-api
+        - secretRef:
+            name: udagram-secret
+        volumeMounts:
+          - name: aws-secret
+            mountPath: "/root/.aws/"
+            readOnly: true
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret
