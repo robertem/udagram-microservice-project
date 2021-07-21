@@ -3,11 +3,11 @@ import express from 'express';
 import {sequelize} from './sequelize';
 
 import {IndexRouter} from './controllers/v0/index.router';
+import {requestLoggingMiddleware} from './request.logger';
 
 import bodyParser from 'body-parser';
 import {config} from './config/config';
 import {V0_USER_MODELS} from './controllers/v0/model.index';
-
 
 (async () => {
   await sequelize.addModels(V0_USER_MODELS);
@@ -27,6 +27,8 @@ import {V0_USER_MODELS} from './controllers/v0/model.index';
     methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
     origin: config.url,
   }));
+
+  app.use(requestLoggingMiddleware);
 
   app.use('/api/v0/', IndexRouter);
 
